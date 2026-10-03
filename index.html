@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legjiona Gjergji — Portfolio Universe</title>
+<meta name="description" content="Legjiona Gjergji — Marketer, AI Content Creator, Business Consultant. Portfolio universe / Portofolio univers.">
+<style>
+:root{
+  --bg:#05060f; --ink:#eef0ff; --mute:#9aa0c8; --line:rgba(255,255,255,.12);
+  --glass:rgba(18,20,44,.72); --accent:#ffb347;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden;min-height:100vh}
+#stars{position:fixed;inset:0;z-index:0;width:100%;height:100%}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:inherit}
+header.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px 22px;background:linear-gradient(#05060fcc,transparent)}
+.brand{font-weight:700;letter-spacing:.12em;font-size:.85rem;text-transform:uppercase}
+.lang{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--glass)}
+.lang button{padding:6px 14px;font-size:.8rem;letter-spacing:.08em;color:var(--mute)}
+.lang button.on{background:var(--ink);color:#05060f;font-weight:700}
+
+
+/* PANEL */
+.panel{position:fixed;inset:0;z-index:50;background:rgba(5,6,15,.94);backdrop-filter:blur(8px);overflow-y:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.panel.open{opacity:1;visibility:visible}
+.pwrap{max-width:1040px;margin:0 auto;padding:84px 22px 80px}
+.close{position:fixed;top:14px;right:22px;z-index:60;width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--line);font-size:1.3rem}
+.ptitle{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+.ptitle .pi{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:1.9rem;background:radial-gradient(circle at 32% 28%,var(--c1),var(--c2));box-shadow:0 0 30px var(--glow);flex:none}
+h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.1;letter-spacing:-.01em}
+.psub{color:var(--mute);margin:6px 0 32px;max-width:62ch}
+h2{font-size:1.1rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:40px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.card h3{font-size:1.15rem;line-height:1.25}
+.meta{font-size:.78rem;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+.card ul{padding-left:18px;color:#cfd3f5;font-size:.93rem}
+.card p{color:#cfd3f5;font-size:.93rem}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.btn{display:inline-block;padding:8px 16px;border-radius:99px;border:1px solid var(--line);font-size:.82rem;text-decoration:none;background:rgba(255,255,255,.05);transition:background .2s,transform .2s}
+.btn:hover{background:var(--ink);color:#05060f;transform:translateY(-1px)}
+.btn.pri{background:var(--accent);color:#1b1200;border-color:transparent;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid var(--line);font-size:.85rem}
+.embed{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#2a1d5c,#0f1a3d);background-image:var(--thumb),linear-gradient(135deg,#2a1d5c,#0f1a3d);background-size:cover;background-position:center;cursor:pointer}
+.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.embed .play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25)}
+.embed .play span{width:64px;height:64px;border-radius:50%;background:#ff2a2a;display:grid;place-items:center;font-size:1.5rem;padding-left:4px;box-shadow:0 4px 24px rgba(0,0,0,.5)}
+.embed .elbl{position:absolute;left:12px;bottom:10px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;text-shadow:0 1px 6px #000}
+.embed.tall{aspect-ratio:4/3}
+/* image slots */
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.slot{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.04);aspect-ratio:var(--ar,4/3)}
+.slot img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block}
+.slot.logo img{object-fit:contain;padding:10px}
+.slot.logo{background:#eef0f6}
+.slot.empty{border-style:dashed;display:grid;place-items:center;text-align:center;padding:10px;color:var(--mute);font-size:.72rem}
+.slot.empty b{display:block;font-size:1.4rem;opacity:.6}
+.slot.empty code{display:block;margin-top:4px;word-break:break-all;opacity:.7}
+.slot.single{max-width:260px}
+.slot.fit img{object-fit:contain;background:#0a0c1e}
+.embed.mag{aspect-ratio:7/10}
+.embed.reel{aspect-ratio:9/15;background:linear-gradient(160deg,#833ab4,#fd1d1d 55%,#fcb045)}
+.reels{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+#profile .ph .slot img,.me-top .slot img{object-position:50% 18%}
+.certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.cert{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.cert h3{font-size:.98rem;line-height:1.3}
+.tl{border-left:2px solid var(--line);padding-left:18px;display:flex;flex-direction:column;gap:14px}
+.tl .it b{display:block}
+.tl .it span{color:var(--mute);font-size:.88rem}
+.me-top{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:center;margin-bottom:10px}
+.me-top .slot{--ar:3/4}
+.titles{display:flex;flex-wrap:wrap;gap:6px 10px;color:var(--accent);font-weight:600;margin:10px 0}
+.titles i{color:var(--mute);font-style:normal}
+.badge{display:inline-block;margin-top:10px;padding:6px 14px;border-radius:99px;background:rgba(255,179,71,.14);border:1px solid rgba(255,179,71,.4);color:#ffd58a;font-size:.85rem}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);display:none;place-items:center;padding:20px;cursor:zoom-out}
+.lb.on{display:grid}
+.lb img{max-width:100%;max-height:100%;border-radius:8px}
+footer{position:relative;z-index:1;text-align:center;padding:30px;color:var(--mute);font-size:.8rem}
+
+
+
+/* ===== 3D UNIVERSE ===== */
+body{overflow:hidden;height:100vh}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;touch-action:none;cursor:grab}
+#gl.hov{cursor:pointer} #gl.drag{cursor:grabbing}
+#labels{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;transition:opacity .6s}
+#labels.hide{opacity:0;visibility:hidden}
+.lbl{position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;display:flex;align-items:center;gap:6px;padding:5px 12px 5px 8px;border-radius:99px;
+  background:rgba(10,12,30,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
+  transition:background .25s,border-color .25s,box-shadow .25s;will-change:transform;text-shadow:0 1px 4px #000}
+.lbl:hover,.lbl.hv{background:rgba(255,255,255,.2);border-color:#fff;box-shadow:0 0 24px rgba(255,255,255,.4)}
+.lbl .i{font-size:1rem}
+.lbl.sunl{flex-direction:column;padding:5px 12px 6px;border-radius:14px;gap:2px;text-align:center;font-size:.6rem;letter-spacing:.12em}
+.lbl.sunl .av{width:34px;height:34px;border-radius:50%;overflow:hidden;background:#1a1330;display:grid;place-items:center;font-weight:800;color:#ffd58a;border:2px solid #ffd58a;box-shadow:0 0 14px rgba(255,170,60,.5);font-size:.75rem;letter-spacing:0}
+.lbl.sunl .av img{width:100%;height:100%;object-fit:cover}
+.lbl.sunl small{font-weight:500;letter-spacing:.06em;color:#ffd58a;text-transform:none;font-size:.6rem}
+.slots.duo{grid-template-columns:1fr 1fr}
+.hint{position:fixed;bottom:18px;left:0;right:0;text-align:center;color:rgba(220,225,255,.75);font-size:.78rem;letter-spacing:.14em;z-index:6;pointer-events:none;text-shadow:0 1px 6px #000;transition:opacity .6s}
+.hint.hide{opacity:0}
+#labels.icons .lbl:not(.sunl){padding:7px;border-radius:50%;font-size:0;gap:0}
+#labels.icons .lbl .i{font-size:1.2rem}
+#labels.icons .lbl.sunl{padding:5px;border-radius:50%;font-size:0}
+#labels.icons .lbl.sunl small{display:none}
+#labels.icons .lbl.sunl .av{width:32px;height:32px;font-size:.7rem}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(2,3,10,.65) 100%)}
+
+/* profile (stage 1) */
+#gl{opacity:0;transition:opacity 2.6s ease}#gl.ready{opacity:1}
+header.top .brand{opacity:0;pointer-events:none;transition:opacity 1s}
+body.st-galaxy header.top .brand{opacity:1;pointer-events:auto;cursor:pointer}
+#profile{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;padding:90px 6vw 60px;pointer-events:none;opacity:0;visibility:hidden;transition:opacity 1.2s,visibility 1.2s;
+  background:linear-gradient(90deg,rgba(2,3,10,.84),rgba(2,3,10,.55) 62%,transparent)}
+#profile.show{opacity:1;visibility:visible}
+#profile .inner{display:flex;align-items:center;gap:clamp(24px,4vw,64px);max-width:1180px;width:100%}
+#profile .ph{flex:none;width:clamp(200px,24vw,340px)}
+#profile .ph .slot{aspect-ratio:3/4;border-radius:22px;border:2px solid rgba(255,214,150,.6);box-shadow:0 0 60px rgba(255,160,50,.45),0 20px 60px rgba(0,0,0,.6)}
+#profile .tx{flex:1;min-width:0}
+.pname{font-weight:900;text-transform:uppercase;line-height:.95;letter-spacing:.02em;font-size:clamp(2.6rem,7.4vw,6.4rem);text-shadow:0 4px 40px rgba(0,0,0,.6),0 0 60px rgba(255,170,60,.35)}
+.ptitles{margin-top:22px;font-size:clamp(.95rem,1.7vw,1.3rem);font-weight:600;color:#ffd58a;display:flex;flex-wrap:wrap;gap:4px 12px}
+.ptitles i{color:rgba(255,255,255,.4);font-style:normal}
+.pyears{margin-top:16px;display:inline-block;padding:7px 18px;border-radius:99px;background:rgba(255,179,71,.14);border:1px solid rgba(255,179,71,.45);color:#ffd58a;font-size:.95rem}
+.pmore{pointer-events:auto;margin-top:34px;display:inline-block;padding:15px 40px;border-radius:99px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.08);backdrop-filter:blur(8px);letter-spacing:.22em;text-transform:uppercase;font-size:.85rem;transition:background .3s,transform .3s,color .3s;box-shadow:0 0 0 0 rgba(255,255,255,.35);animation:pulse 3s 3s infinite}
+.pmore:hover{background:#fff;color:#05060f;transform:scale(1.05)}
+#profile.show .ph{animation:rise 1.4s .2s both}
+#profile.show .pname{animation:rise 1.4s .5s both}
+#profile.show .ptitles{animation:rise 1.4s .8s both}
+#profile.show .pyears{animation:rise 1.4s 1.05s both}
+#profile.show .pmore{animation:rise 1.4s 1.4s both,pulse 3s 3.2s infinite}
+.lbl.cta{padding:14px 30px;font-size:.95rem;letter-spacing:.3em;background:rgba(20,10,0,.35);border-color:rgba(255,230,170,.85);box-shadow:0 0 40px rgba(255,190,80,.7);animation:ctaPulse 2.4s ease-in-out infinite}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 30px rgba(255,190,80,.6),0 0 0 0 rgba(255,220,150,.5)}50%{box-shadow:0 0 60px rgba(255,190,80,.95),0 0 0 22px rgba(255,220,150,0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.35)}50%{box-shadow:0 0 0 18px rgba(255,255,255,0)}}
+@media (max-width:820px){#profile{pointer-events:auto;background:rgba(2,3,10,.42);align-items:flex-start;overflow-y:auto;padding-top:76px}#profile .inner{flex-direction:column;text-align:center;gap:18px;padding-bottom:40px}#profile .ph{width:min(38vw,210px)}.pname{font-size:clamp(2.2rem,11vw,3.4rem)}.ptitles{justify-content:center;margin-top:14px}.pmore{margin-top:22px}}
+@keyframes shine{to{background-position:-250% 0}}
+@keyframes rise{from{opacity:0;transform:translateY(24px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.35)}50%{box-shadow:0 0 0 18px rgba(255,255,255,0)}}
+
+/* fallback (no WebGL) */
+#fallback{position:fixed;inset:0;z-index:70;display:none;flex-wrap:wrap;gap:14px;align-content:center;justify-content:center;padding:90px 20px;background:#05060f}
+#fallback.on{display:flex}
+
+/* content panel = glass drawer over the 3D scene */
+.panel{inset:0 0 0 auto;width:min(780px,100%);background:linear-gradient(160deg,rgba(14,12,38,.86),rgba(6,8,22,.9));backdrop-filter:blur(18px) saturate(1.3);
+  border-left:1px solid rgba(255,255,255,.14);box-shadow:-30px 0 80px rgba(0,0,0,.5);transform:translateX(60px);transition:opacity .5s,visibility .5s,transform .7s cubic-bezier(.2,.8,.2,1)}
+.panel.open{transform:none}
+.pwrap{padding:84px 26px 80px;max-width:none}
+.card{backdrop-filter:blur(6px);transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.3);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+header.top{z-index:30}
+.close{right:130px}
+@media (max-width:820px){
+  .me-top{grid-template-columns:1fr}
+  .me-top .slot{max-width:220px}
+  .panel{transform:translateY(40px)}
+  .pwrap{padding:80px 16px 60px}
+  .hint{font-size:.7rem;padding:0 14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div class="vignette"></div>
+<div id="labels"></div>
+<div class="hint hide" id="hint"></div>
+
+<header class="top">
+  <div class="brand">Legjiona Gjergji</div>
+  <div class="lang" role="group" aria-label="Language">
+    <button data-l="sq" class="on">SQ</button><button data-l="en">EN</button>
+  </div>
+</header>
+
+<section id="profile"><div class="inner"><div class="ph" id="pPhoto"></div><div class="tx"><div class="pname" id="pName">Legjiona<br>Gjergji</div><div class="ptitles" id="pTitles"></div><div class="pyears" id="pYears"></div><div><button class="pmore" id="pMore"></button></div></div></div></section>
+<div id="fallback"></div>
+
+<section class="panel" id="panel" aria-modal="true" role="dialog">
+  <button class="close" id="close" aria-label="Close">✕</button>
+  <div class="pwrap" id="pwrap"></div>
+</section>
+<div class="lb" id="lb"><img alt=""></div>
+
+
+<script>
+/* ============ CONFIG ============ */
+const CONFIG = {
+  showPlaceholders: false,         // set to false when all photos are in place (hides empty slots from visitors)
+  assets: 'assets',
+  exts: ['jpg','png','jpeg','webp','svg','JPG','PNG','JPEG','WEBP'],
+  email: 'workwithlegjiona@gmail.com'
+  // Phone and date of birth from the CV are intentionally NOT shown publicly.
+};
+
+/* ============ LINKS (all from the CV / user) ============ */
+const L = {
+  igMe:'https://www.instagram.com/l3gjionax',
+  igMM:'https://www.instagram.com/ml_marketing01',
+  igMC:'https://www.instagram.com/ml_cinema01/',
+  igMR:'https://www.instagram.com/mes_rreshtave01/',
+  ytMe:'https://www.youtube.com/@LegjionaGjergji',
+  ytMC:'https://www.youtube.com/@ml_cinema01',
+  ytMR:'https://www.youtube.com/@MesRreshtavePodcast',
+  li:'https://al.linkedin.com/in/legjiona-gjergji-3994273b9',
+  hub:'https://ai-marketing-hub-swart.vercel.app/',
+  reelsMM:['DdrloqKjJvP','DYnV9jMOgkM','DXwGersMKBj','DbTLisbqSOl','DbbHNfzNd7H'],
+  reelsSales:['DbTLisbqSOl','DbWNFpbsrmk','DbYx-ofsFYZ','DbbWuhyscqN','Dbd7jbGMjjE','DbggRviMrRa'],
+  serialReels:['DUxhG4RiIwz','DU5p9I_DDsu'],
+  posters:['DcZgSWCqHZQ','DaeEBOyqCoU','DaeEKgGK_kw','DaeDw76KEak'],
+  reels:['DbWLayqk4V8','DbYvEj7AHqK','DbbOS05E4By','Dbd5PAdAn0Z','DbgeGq_gIMt','DbjCzpKDXCl','DbnaJ1HDCmx','DbvIeNQCmtZ'],
+  mag:'https://heyzine.com/flip-book/bade4936dd.html',
+  film:'CG1DEsiwQGY',
+  pl:{
+    serial:'PL-M2eTqXgXGfHlT23_pjj2gmhd-dIiALR',
+    podcast:'PLe-bHzg8GO0o',
+    news:'PL-M2eTqXgXGe50ML19b9OvksVvfeiW_6X',
+    video:'PLGyjvX9j_Bew',
+    mini:'PLEpkiGCUVbec'
+  }
+};
+
+/* ============ i18n ============ */
+let lang = 'sq';
+try{ lang = localStorage.getItem('lang') || 'sq'; }catch(e){}
+const t = o => (o && typeof o==='object') ? (o[lang]||o.en) : o;
+const UI = {
+  hint:{sq:'Kliko një planet për të eksploruar',en:'Click a planet to explore'},
+  sunTag:{sq:'Kliko për profilin',en:'Click for my profile'},
+  open:{sq:'Hap',en:'Open'}, visit:{sq:'Hap projektin',en:'Open project'},
+  watch:{sq:'Luaj videon',en:'Play video'}, flip:{sq:'Hap revistën',en:'Open magazine'},
+  present:{sq:'në vazhdim',en:'present'},
+  soon:{sq:'Së shpejti',en:'Coming soon'},
+  gallery:{sq:'Galeria',en:'Gallery'},
+  photo:{sq:'Foto',en:'Photo'}
+};
+
+/* ============ DATA ============ */
+const PLANETS = [
+ {id:'marketing', ico:'📣', c1:'#ff9aa8', c2:'#c2185b', glow:'rgba(255,80,130,.55)', orbit:0, name:{sq:'Marketing',en:'Marketing'}},
+ {id:'ai',        ico:'🤖', c1:'#9ad7ff', c2:'#1565c0', glow:'rgba(80,170,255,.55)', orbit:0, name:{sq:'AI',en:'AI'}},
+ {id:'business',  ico:'💼', c1:'#ffd98a', c2:'#b26a00', glow:'rgba(255,190,70,.5)',  orbit:1, name:{sq:'Biznes',en:'Business'}},
+ {id:'startups',  ico:'🚀', c1:'#c4a3ff', c2:'#5e35b1', glow:'rgba(160,110,255,.55)',orbit:1, name:{sq:'Startup',en:'Startups'}},
+ {id:'design',    ico:'🎨', c1:'#8ff0c4', c2:'#00897b', glow:'rgba(60,220,170,.5)',  orbit:1, name:{sq:'Dizajn',en:'Design'}},
+ {id:'skills',    ico:'🛠', c1:'#ffb3a0', c2:'#d84315', glow:'rgba(255,120,80,.5)',  orbit:2, name:{sq:'Aftësi',en:'Skills'}},
+ {id:'certs',     ico:'🎓', c1:'#b8e986', c2:'#558b2f', glow:'rgba(150,230,80,.5)',  orbit:2, name:{sq:'Certifikata & Trajnime',en:'Certificates & Training'}},
+ {id:'contact',   ico:'✉️', c1:'#a8b8ff', c2:'#303f9f', glow:'rgba(120,140,255,.55)',orbit:2, name:{sq:'Kontakt',en:'Contact'}}
+];
+
+const CERTS = [
+ {f:'google-skillshop', y:'17 Nov 2025', n:{sq:'AI-Powered Performance Ads Certification',en:'AI-Powered Performance Ads Certification'}, by:'Google / Skillshop', note:{sq:'Vlefshme deri më 17 nëntor 2026',en:'Valid until 17 Nov 2026'}},
+ {f:'said-dulevic-digital-marketing', tr:true, y:'2024', n:{sq:'Trajnim në Digital Marketing',en:'Digital Marketing Training'}, by:'Said Dulevic'},
+ {f:'said-dulevic-ai', tr:true, y:'2025', n:{sq:'Trajnim në Artificial Intelligence',en:'Artificial Intelligence Training'}, by:'Said Dulevic'},
+ {f:'eternity-marketing', tr:true, y:'', n:{sq:'Trajnim — Social Media Marketing',en:'Training — Social Media Marketing'}, by:'Eternity Marketing'},
+ {f:'impact-education-ai', y:'2025', n:{sq:'Kurs 1-mujor në Inteligjencën Artificiale',en:'1-Month Artificial Intelligence Course'}, by:'Impact Education'},
+ {f:'girl-go-stem', y:'12 Dec 2025', n:{sq:'Milestone Certificate — Digital Skills & Circular Economy',en:'Milestone Certificate — Digital Skills & Circular Economy'}, by:'Girls Go STEM · EIT RawMaterials'},
+ {f:'coursiv-ai-mastery', y:'3 May 2026', n:{sq:'AI Mastery Certificate Program',en:'AI Mastery Certificate Program'}, by:'Coursiv'},
+ {f:'coursiv-chatgpt', y:'3 May 2026', n:{sq:'Master of ChatGPT — 6 orë',en:'Master of ChatGPT — 6 hours'}, by:'Coursiv'},
+ {f:'coursiv-midjourney', y:'27 Apr 2026', n:{sq:'Master of Midjourney — 6 orë',en:'Master of Midjourney — 6 hours'}, by:'Coursiv'},
+ {f:'coursiv-claude', y:'27 Apr 2026', n:{sq:'Master of Claude — 5 orë',en:'Master of Claude — 5 hours'}, by:'Coursiv'},
+ {f:'coursiv-jasper', y:'27 Apr 2026', n:{sq:'Master of Jasper AI — 5 orë',en:'Master of Jasper AI — 5 hours'}, by:'Coursiv'},
+ {f:'coursiv-gemini', y:'3 May 2026', n:{sq:'Master of Gemini — 4 orë',en:'Master of Gemini — 4 hours'}, by:'Coursiv'},
+ {f:'coursiv-lovable', y:'3 May 2026', n:{sq:'Master of Lovable — 4 orë',en:'Master of Lovable — 4 hours'}, by:'Coursiv'},
+ {f:'learnfree-graphic-design', y:'23 Apr 2026', n:{sq:'Beginning Graphic Design — 59 minuta',en:'Beginning Graphic Design — 59 minutes'}, by:'LearnFree'},
+ {f:'ram-halilaj-zgjohu-vepro-fito', tr:true, y:'2026', n:{sq:'Trajnim “Zgjohu, Vepro, Fito” — shitje, biznes dhe mindset',en:'“Zgjohu, Vepro, Fito” Training — sales, business & mindset'}, by:'Ram Halilaj'}
+];
+
+const ACHIEVEMENTS = [
+ {f:'first-lego-league', y:'28 Feb 2026', n:{sq:'FIRST LEGO League Albania — Medalje Argjendi, Robot Design',en:'FIRST LEGO League Albania — Silver Medal, Robot Design'}},
+ {f:'informatics-olympiad', y:'2025–2026', n:{sq:'Olimpiada Kombëtare e Informatikës, Faza e Dytë — Çmimi 3',en:'National Informatics Olympiad, Second Phase — 3rd Prize'}},
+ {f:'ideathon-stem-ai', y:'27 Mar 2026', n:{sq:'Ideathon: “STEM & IA për Komunitetin”',en:'Ideathon: “STEM & AI for the Community”'}},
+ {f:'nextgen-club', y:'2025–2026', n:{sq:'NextGen Club — Certifikatë Mirënjohjeje',en:'NextGen Club — Certificate of Appreciation'}}
+];
+
+
+const SKILLS = [
+ {t:{sq:'Marketing & Social Media',en:'Marketing & Social Media'}, i:['Social Media Management','Digital Marketing','Marketing Strategy','Content Strategy','Copywriting','Advertising','Branding']},
+ {t:{sq:'Kreativitet & Dizajn',en:'Creative & Design'}, i:['Graphic Design','Video Editing','Creative Direction']},
+ {t:{sq:'Inteligjencë Artificiale',en:'Artificial Intelligence'}, i:['AI Content Creation','AI Prompting']},
+ {t:{sq:'Biznes',en:'Business'}, i:['Sales','Business Development','Project Management']},
+ {t:{sq:'Mjete & Tools',en:'Tools'}, i:['ChatGPT','Claude','Gemini','Grok','Perplexity','Jasper AI','Midjourney','Leonardo AI','Adobe Firefly','Kling AI','Higgsfield','Runway','Sora','Google Veo','HeyGen','ElevenLabs','Suno','Lovable','Canva','CapCut','Adobe Photoshop','Adobe Illustrator','Adobe Express','Adobe Premiere Pro','Adobe InDesign','Adobe Lightroom','Figma','Instagram','TikTok','YouTube']}
+];
+
+/* ============ helpers ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dir = p => CONFIG.assets + '/' + p;
+
+function probe(base){
+  return new Promise(res=>{
+    let i=0;
+    const next=()=>{
+      if(i>=CONFIG.exts.length) return res(null);
+      const url = base+'.'+CONFIG.exts[i++];
+      const im = new Image();
+      im.onload=()=>res(url); im.onerror=next; im.src=url;
+    };
+    next();
+  });
+}
+/* A photo slot: shows image if found, otherwise a labeled placeholder */
+function slot(base, label, opts={}){
+  const id = 's'+Math.random().toString(36).slice(2,9);
+  const cls = ['slot', opts.logo?'logo':'', opts.single?'single':'', opts.fit?'fit':''].join(' ');
+  const st = (opts.ar||opts.bg) ? ` style="${opts.ar?`--ar:${opts.ar};`:''}${opts.bg?`background:${opts.bg};`:''}"` : '';
+  setTimeout(()=>probe(base).then(url=>{
+    const el = document.getElementById(id); if(!el) return;
+    if(url){ el.className=cls; el.innerHTML=`<img src="${url}" alt="${esc(label||'')}" loading="lazy">`; }
+    else if(!CONFIG.showPlaceholders){ el.remove(); }
+  }),0);
+  const hint = base.replace(CONFIG.assets+'/','');
+  return `<div id="${id}" class="${cls} empty"${st}><div><b>🖼</b>${esc(label||t(UI.photo))}<code>${esc(hint)}.jpg</code></div></div>`;
+}
+/* A gallery: tries prefix-1 … prefix-N, keeps the ones that exist */
+function gallery(folder, prefix, n, label, opts={}){
+  let h=''; for(let i=1;i<=n;i++) h+=slot(`${dir(folder)}/${prefix}-${i}`, `${label} ${i}`, opts);
+  return `<div class="slots">${h}</div>`;
+}
+function embed(kind, id, label, thumb){
+  const src = kind==='video' ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`
+            : kind==='list'  ? `https://www.youtube.com/embed/videoseries?list=${id}&autoplay=1`
+            : kind==='reel' ? `https://www.instagram.com/reel/${id}/embed`
+            : kind==='post' ? `https://www.instagram.com/p/${id}/embed`
+            : id;
+  const th = thumb ? ` style="--thumb:url(${thumb})"` : '';
+  return `<div class="embed ${kind==='frame'?'mag':(kind==='reel'||kind==='post')?'reel':''}" data-src="${esc(src)}"${th} role="button" tabindex="0" aria-label="${esc(label)}">
+    <div class="play"><span>▶</span></div><div class="elbl">${esc(label)}</div></div>`;
+}
+const btn = (href,txt,pri) => `<a class="btn ${pri?'pri':''}" href="${esc(href)}" target="_blank" rel="noopener">${esc(txt)}</a>`;
+const card = ({title,meta,body,list,media,btns}) => `<article class="card">
+  ${media||''}<h3>${t(title)}</h3>${meta?`<div class="meta">${t(meta)}</div>`:''}
+  ${body?`<p>${t(body)}</p>`:''}${list?`<ul>${list.map(x=>`<li>${t(x)}</li>`).join('')}</ul>`:''}
+  ${btns?`<div class="btns">${btns}</div>`:''}</article>`;
+const head = (p, title, sub) => `<div class="ptitle" style="--c1:${p.c1};--c2:${p.c2};--glow:${p.glow}"><div class="pi">${p.ico}</div><h1>${t(title)}</h1></div><p class="psub">${t(sub)}</p>`;
+const h2 = s => `<h2>${t(s)}</h2>`;
+const PRESENT = () => t(UI.present);
+
+/* ============ PANELS ============ */
+const VIEWS = {
+ me(){
+  return `<div class="me-top">
+    ${slot(dir('01_profile/portrait'),{sq:'Foto portret',en:'Portrait'}[lang],{ar:'3/4'})}
+    <div>
+      <h1>LEGJIONA GJERGJI</h1>
+      <div class="titles">${['Marketer','AI Content Creator','Business Consultant','Sales Specialist','Strategy Creator','Graphic Designer Entrepreneur'].map(x=>`<span>${x}</span>`).join('<i>·</i>')}</div>
+      <span class="badge">${t({sq:'5 vite në botën digjitale dhe teknologjike',en:'5 years in the digital and tech world'})}</span>
+      <p class="psub" style="margin-top:14px">${t({sq:'Durrës, Shqipëri',en:'Durrës, Albania'})}</p>
+    </div></div>
+    ${h2({sq:'Fusha profesionale',en:'Professional field'})}
+    <div class="chips">${['Social Media Manager','Marketing Strategist','AI Content Creator','Graphic Designer','Sales & Business Development','Business Consulting','AI Creator'].map(x=>`<span class="chip">${x}</span>`).join('')}</div>
+    ${h2({sq:'Përvoja',en:'Experience'})}
+    <div class="tl">
+      ${[
+       ['2026 – '+PRESENT(),{sq:'Business Consulting / Business Projects — Independent',en:'Business Consulting / Business Projects — Independent'}],
+       ['2026 – '+PRESENT(),{sq:'Founder — Mes Rreshtave',en:'Founder — Mes Rreshtave'}],
+       [{sq:'Qershor 2026 – '+PRESENT(),en:'June 2026 – '+PRESENT()},{sq:'Founder — ML Cinema',en:'Founder — ML Cinema'}],
+       [{sq:'Qershor – Korrik 2026',en:'June – July 2026'},{sq:'Freelance Marketing — Radi Marketing',en:'Freelance Marketing — Radi Marketing'}],
+       [{sq:'Qershor – Gusht 2026',en:'June – August 2026'},{sq:'Creator / Producer — “Until We Meet Again”',en:'Creator / Producer — “Until We Meet Again”'}],
+       ['2025 – '+PRESENT(),{sq:'AI Content Creator — Independent / Freelance',en:'AI Content Creator — Independent / Freelance'}],
+       ['2025 – '+PRESENT(),{sq:'Co-Founder — ML Marketing',en:'Co-Founder — ML Marketing'}],
+       ['2023 – 2024',{sq:'Social Media Manager — Social Media01 (agjenci marketingu)',en:'Social Media Manager — Social Media01 (marketing agency)'}],
+       ['2022 – 2023',{sq:'Freelance Graphic Designer — Upwork / projekte freelance',en:'Freelance Graphic Designer — Upwork / freelance projects'}]
+      ].map(([d,x])=>`<div class="it"><b>${t(x)}</b><span>${t(d)}</span></div>`).join('')}
+    </div>
+    ${h2({sq:'Edukimi',en:'Education'})}
+    <div class="tl">
+      <div class="it"><b>Kolegji Turgut Özal, Durrës</b><span>2025 – ${PRESENT()} · ${t({sq:'Arsim i mesëm i përgjithshëm',en:'General secondary education'})}</span></div>
+      <div class="it"><b>${t({sq:'Shkolla 9-vjeçare “Qemal Mici”, Durrës',en:'“Qemal Mici” 9-year school, Durrës'})}</b><span>2016 – 2025 · ${t({sq:'Arsim i përgjithshëm',en:'General education'})}</span></div>
+    </div>`;
+ },
+
+ marketing(p){
+  return head(p,{sq:'Planeti i Marketingut',en:'Marketing Planet'},{sq:'Strategji, rrjete sociale dhe përmbajtje për biznese.',en:'Strategy, social media and content for businesses.'})+
+  `<div class="grid">
+    ${card({title:'ML Marketing',meta:{sq:'Co-Founder · 2025 – në vazhdim · Digital Marketing / Social Media / Business',en:'Co-Founder · 2025 – present · Digital Marketing / Social Media / Business'},
+      list:[{sq:'Bashkëthemelim i agjencisë; strategji marketingu dhe social media',en:'Co-founded the agency; marketing and social media strategy'},
+            {sq:'Content planning, reels, posts, carousels, stories',en:'Content planning, reels, posts, carousels, stories'},
+            {sq:'Copywriting, branding dhe outreach',en:'Copywriting, branding and outreach'},
+            {sq:'Komunikim me klientë, shitje dhe zhvillim biznesi',en:'Client communication, sales and business development'},
+            {sq:'Përdorim i AI për ideim dhe prodhim kreativ',en:'AI for ideation and creative production'}],
+      btns:btn(L.igMM,'Instagram @ml_marketing01',true)})}
+    ${card({title:'Social Media01',meta:{sq:'Social Media Manager · 2023 – 2024 · Agjenci marketingu',en:'Social Media Manager · 2023 – 2024 · Marketing agency'},
+      body:{sq:'Menaxhim i rrjeteve sociale, krijim dhe organizim i përmbajtjes dhe mbështetje në planifikimin e saj.',en:'Social media management, content creation and organization, and support in content planning.'}})}
+    ${card({title:'Radi Marketing',meta:{sq:'Freelance Marketing · Qershor – Korrik 2026',en:'Freelance Marketing · June – July 2026'},
+      body:{sq:'Mbështetje freelance në marketing dhe aktivitete të përmbajtjes digjitale.',en:'Freelance support in marketing and digital content activities.'}})}
+  </div>
+  ${h2({sq:'ML Marketing — logo',en:'ML Marketing — logo'})}
+  <div class="slots">${slot(dir('02_marketing/ml-marketing/logo'),'Logo ML Marketing',{logo:true,bg:'#eceef3',single:true,ar:'1/1'})}</div>
+  ${h2({sq:'ML Marketing — Postime',en:'ML Marketing — Posts'})}
+  <div class="reels">${L.reelsMM.map((id,i)=>embed('reel',id,'Post '+(i+1))).join('')}</div>
+  <div class="btns" style="margin-top:14px">${btn(L.igMM,'Instagram @ml_marketing01',true)}</div>`;
+ },
+
+ ai(p){
+  const yt = (title,meta,body,pl,extra) => card({title,meta,body,media:embed('list',pl,t({sq:'Luaj playlist',en:'Play playlist'}),null),btns:btn('https://www.youtube.com/playlist?list='+pl,'YouTube')});
+  return head(p,{sq:'Planeti i AI',en:'AI Planet'},{sq:'Filma, seriale, podcaste, lajme dhe projekte të krijuara me inteligjencë artificiale.',en:'Films, series, podcasts, news and projects created with artificial intelligence.'})+
+  `<div class="grid">
+    ${card({title:'Until We Meet Again',meta:{sq:'Film me AI · rreth 40 minuta · Qershor – Gusht 2026',en:'AI film · about 40 minutes · June – August 2026'},
+      body:{sq:'Zhvillim i konceptit, skenarit, produksionit vizual me AI, skenave, montazhit dhe publikimit të filmit. ML Cinema / Independent Project.',en:'Concept, script, AI visual production, scenes, editing and release of the film. ML Cinema / Independent Project.'},
+      media:embed('video',L.film,'Until We Meet Again',`https://i.ytimg.com/vi/${L.film}/hqdefault.jpg`),
+      btns:btn('https://youtu.be/'+L.film,'YouTube')})}
+    ${yt('AI Podcast','2025 – 2026',{sq:'Projekt podcast me asistencë të AI.',en:'Podcast project with AI assistance.'},L.pl.podcast)}
+    ${yt('AI News','2025 – 2026',{sq:'Projekt lajmesh me AI.',en:'News project with AI.'},L.pl.news)}
+    ${yt('AI Video Projects','2025 – 2026',{sq:'Seri projektesh video të krijuara me AI.',en:'A series of video projects created with AI.'},L.pl.video)}
+    ${yt('AI Mini Films','2025 – 2026',{sq:'Projekte filmike të shkurtra me AI.',en:'Short film projects with AI.'},L.pl.mini)}
+    ${card({title:'AI Marketing Hub',meta:{sq:'Website · 2026 – në vazhdim',en:'Website · 2026 – present'},
+      body:{sq:'Website për marketing dhe Social Media Management.',en:'Website for marketing and Social Media Management.'},
+      media:slot(dir('03_ai/ai-marketing-hub/screenshot'),'AI Marketing Hub',{ar:'16/9'}),
+      btns:btn(L.hub,t(UI.visit),true)})}
+    ${card({title:'Mes Rreshtave Podcast',meta:{sq:'Podcast · 2026 – në vazhdim',en:'Podcast · 2026 – present'},
+      body:{sq:'Faqe dhe koncept podcast-i i fokusuar te librat, bisedat dhe përmbajtja “Mes Rreshtave”.',en:'A page and podcast concept focused on books, conversations and the “Mes Rreshtave” content.'},
+      media:slot(dir('03_ai/mes-rreshtave/cover'),'Mes Rreshtave',{ar:'16/9'}),
+      btns:btn(L.igMR,'Instagram',true)+btn(L.ytMR,'YouTube')})}
+  </div>
+  ${h2({sq:'Serial',en:'Series'})}
+  <div class="grid">
+    ${yt({sq:'Serial — pjesët në YouTube',en:'Series — episodes on YouTube'},{sq:'Shkurt – Mars 2026',en:'February – March 2026'},{sq:'Projekt serial i zhvilluar me AI.',en:'Series project developed with AI.'},L.pl.serial)}
+  </div>
+  <div class="reels" style="margin-top:18px">${L.serialReels.map((id,i)=>embed('reel',id,'Serial · Reel '+(i+1))).join('')}</div>
+  ${h2({sq:'Reels',en:'Reels'})}
+  <div class="reels">${L.reels.map((id,i)=>embed('reel',id,'Reel '+(i+1))).join('')}</div>
+  ${h2({sq:'Until We Meet Again — Poster',en:'Until We Meet Again — Posters'})}
+  <div class="reels">${L.posters.map((id,i)=>embed('post',id,'Poster '+(i+1))).join('')}</div>`;
+ },
+
+ business(p){
+  return head(p,{sq:'Planeti i Biznesit',en:'Business Planet'},{sq:'Biznese që kam themeluar, bashkëthemeluar dhe zhvilluar.',en:'Businesses I founded, co-founded and developed.'})+
+  `<div class="grid">
+    ${card({title:'ML Marketing',meta:{sq:'Co-Founder · 2025 – në vazhdim',en:'Co-Founder · 2025 – present'},
+      body:{sq:'Agjenci marketingu dhe social media: strategji, përmbajtje, branding, shitje dhe zhvillim biznesi.',en:'Marketing and social media agency: strategy, content, branding, sales and business development.'},
+      media:slot(dir('02_marketing/ml-marketing/logo'),'Logo ML Marketing',{logo:true,bg:'#eceef3',ar:'16/9'}),
+      btns:btn(L.igMM,'Instagram',true)})}
+    ${card({title:'ML Cinema',meta:{sq:'Founder · Qershor 2026 – në vazhdim · Film / AI / Creative Production',en:'Founder · June 2026 – present · Film / AI / Creative Production'},
+      body:{sq:'Themelim dhe zhvillim i një projekti kreativ për filmmaking, visual storytelling dhe prodhim me asistencë të AI.',en:'Founded and developing a creative project for filmmaking, visual storytelling and AI-assisted production.'},
+      media:slot(dir('04_business/ml-cinema/logo'),'Logo ML Cinema',{logo:true,bg:'#000',ar:'16/9'}),
+      btns:btn(L.igMC,'Instagram',true)+btn(L.ytMC,'YouTube')})}
+    ${card({title:'Mes Rreshtave',meta:{sq:'Founder · 2026 – në vazhdim · Books / Podcast / Digital Content',en:'Founder · 2026 – present · Books / Podcast / Digital Content'},
+      body:{sq:'Krijim dhe zhvillim i një faqeje dhe koncepti podcast-i të fokusuar te librat, bisedat dhe përmbajtja.',en:'Creation and development of a page and podcast concept focused on books, conversations and content.'},
+      media:slot(dir('04_business/mes-rreshtave/logo'),'Logo Mes Rreshtave',{logo:true,bg:'#000',ar:'16/9'}),
+      btns:btn(L.igMR,'Instagram',true)+btn(L.ytMR,'YouTube')})}
+    ${card({title:'Business Consulting / Business Projects',meta:{sq:'Independent · 2026 – në vazhdim',en:'Independent · 2026 – present'},
+      body:{sq:'Punë mbi koncepte biznesi, pozicionim, marketing, prezencë digjitale, ideim, shitje, strategji dhe zhvillim projektesh.',en:'Work on business concepts, positioning, marketing, digital presence, ideation, sales, strategy and project development.'},
+      media:slot(dir('04_business/l3gjionax/logo'),'l3gjionax',{logo:true,bg:'#eeeeee',ar:'16/9'}),
+      btns:btn(L.igMe,'Instagram @l3gjionax',true)})}
+  </div>
+  ${h2({sq:'Sales & Business Consulting',en:'Sales & Business Consulting'})}
+  <div class="reels">${L.reelsSales.map((id,i)=>embed('reel',id,'Reel '+(i+1))).join('')}</div>`;
+ },
+
+ startups(p){
+  return head(p,{sq:'Planeti i Startup-eve',en:'Startups Planet'},{sq:'Ide, produkte dhe projekte sipërmarrëse.',en:'Ideas, products and entrepreneurial projects.'})+
+  `<div class="grid">
+    ${card({title:'ML Cinema',meta:{sq:'Film / AI / Creative Production · 2026',en:'Film / AI / Creative Production · 2026'},
+      body:{sq:'Projekt kreativ për filmmaking, visual storytelling dhe prodhim me asistencë të AI.',en:'Creative project for filmmaking, visual storytelling and AI-assisted production.'},
+      media:slot(dir('04_business/ml-cinema/logo'),'Logo ML Cinema',{logo:true,bg:'#000',ar:'16/9'}),
+      btns:btn(L.igMC,'Instagram',true)+btn(L.ytMC,'YouTube')})}
+    ${card({title:'Mes Rreshtave',meta:{sq:'Books / Podcast / Digital Content · 2026',en:'Books / Podcast / Digital Content · 2026'},
+      body:{sq:'Faqe dhe koncept podcast-i i fokusuar te librat, bisedat dhe përmbajtja.',en:'A page and podcast concept focused on books, conversations and content.'},
+      media:slot(dir('04_business/mes-rreshtave/logo'),'Logo Mes Rreshtave',{logo:true,bg:'#000',ar:'16/9'}),
+      btns:btn(L.igMR,'Instagram',true)+btn(L.ytMR,'YouTube')})}
+    ${card({title:'ML Marketing',meta:{sq:'Digital Marketing / Social Media · 2025 – në vazhdim',en:'Digital Marketing / Social Media · 2025 – present'},
+      body:{sq:'Agjenci marketingu dhe social media: strategji, përmbajtje, branding dhe zhvillim biznesi.',en:'Marketing and social media agency: strategy, content, branding and business development.'},
+      media:slot(dir('02_marketing/ml-marketing/logo'),'Logo ML Marketing',{logo:true,bg:'#eceef3',ar:'16/9'}),
+      btns:btn(L.igMM,'Instagram',true)})}
+    ${card({title:'AI Marketing Hub',meta:{sq:'Website · 2026 – në vazhdim',en:'Website · 2026 – present'},
+      body:{sq:'Website për marketing dhe Social Media Management.',en:'Website for marketing and Social Media Management.'},
+      media:slot(dir('03_ai/ai-marketing-hub/screenshot'),'AI Marketing Hub',{ar:'16/9'}),
+      btns:btn(L.hub,t(UI.visit),true)})}
+  </div>`;
+ },
+
+ design(p){
+  return head(p,{sq:'Planeti i Dizajnit',en:'Design Planet'},{sq:'Dizajn grafik, revista dhe identitet vizual.',en:'Graphic design, magazines and visual identity.'})+
+  `<div class="grid">
+    ${card({title:'Freelance Graphic Designer',meta:{sq:'Upwork / Projekte freelance · 2022 – 2023',en:'Upwork / Freelance projects · 2022 – 2023'},
+      body:{sq:'Dizajnimi i reklamave dhe materialeve vizuale për biznese sipas kërkesave dhe brief-eve të klientëve.',en:'Design of ads and visual materials for businesses according to client briefs.'},
+      media:slot(dir('05_design/upwork-logo'),'Upwork',{logo:true,bg:'#ffffff',ar:'16/9'})})}
+    ${card({title:'“8 orë në ditë… por për çfarë?”',meta:{sq:'Revistë · Projekt digjital · 2025 – 2026',en:'Magazine · Digital project · 2025 – 2026'},
+      media:embed('frame',L.mag,{sq:'Hap revistën',en:'Open magazine'}[lang],dir('05_design/magazines/8-ore-cover.jpg')),
+      btns:btn(L.mag,t(UI.flip),true)})}
+    ${card({title:'“Emigracioni në Shqipëri”',meta:{sq:'Revistë · Projekt kërkimor · 2024 – 2025',en:'Magazine · Research project · 2024 – 2025'},
+      media:`<div class="slots duo">${slot(dir('05_design/magazines/emigracioni-cover'),'Emigracioni në Shqipëri',{ar:'7/10'})}${slot(dir('05_design/magazines/emigracioni-cover-2'),'Emigracioni',{ar:'7/10',fit:true})}</div>`})}
+    <article class="card"><h3>${t({sq:'Mjete dizajni',en:'Design tools'})}</h3><div class="chips">${['Adobe Photoshop','Adobe Illustrator','Adobe InDesign','Adobe Express','Adobe Premiere Pro','Adobe Lightroom','Figma','Canva','CapCut'].map(x=>`<span class="chip">${x}</span>`).join('')}</div></article>
+  </div>`;
+ },
+
+ skills(p){
+  return head(p,{sq:'Planeti i Aftësive',en:'Skills Planet'},{sq:'Aftësitë e listuara në CV.',en:'Skills listed in my CV.'})+
+  SKILLS.map(g=>`${h2(g.t)}<div class="chips">${g.i.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`).join('');
+ },
+
+ certs(p){
+  const c = x => `<div class="cert">${slot(dir('06_certificates/'+x.f),x.by,{ar:'4/3',fit:true})}<h3>${t(x.n)}</h3><div class="meta">${x.by}${x.y?' · '+x.y:''}</div>${x.note?`<div class="meta">${t(x.note)}</div>`:''}</div>`;
+  const tr = x => `<div class="cert"><h3>${t(x.n)}</h3><div class="meta">${x.by}${x.y?' · '+x.y:''}</div></div>`;
+  return head(p,{sq:'Planeti i Certifikatave & Trajnimeve',en:'Certificates & Training Planet'},{sq:'Çdo certifikatë dhe trajnim.',en:'Every certificate and training.'})+
+  `${h2({sq:'Certifikata',en:'Certificates'})}<div class="certs">${CERTS.filter(x=>!x.tr).map(c).join('')}</div>
+   ${h2({sq:'Trajnime',en:'Training'})}<div class="certs">${CERTS.filter(x=>x.tr).map(tr).join('')}</div>
+   ${h2({sq:'Arritje & aktivitete',en:'Achievements & activities'})}
+   <div class="certs">${ACHIEVEMENTS.map(a=>`<div class="cert">${slot(dir('06_certificates/achievements/'+a.f),a.f,{ar:'4/3',fit:true})}<h3>${t(a.n)}</h3><div class="meta">${a.y}</div></div>`).join('')}</div>`;
+ },
+
+ contact(p){
+  return head(p,{sq:'Planeti i Kontaktit',en:'Contact Planet'},{sq:'Le të bashkëpunojmë.',en:"Let's work together."})+
+  `<div class="grid">
+    ${card({title:'Email',body:CONFIG.email,btns:btn('mailto:'+CONFIG.email,{sq:'Dërgo email',en:'Send email'}[lang],true)})}
+    ${card({title:'LinkedIn',body:'Legjiona Gjergji',btns:btn(L.li,'LinkedIn',true)})}
+    ${card({title:'Instagram',list:['@l3gjionax — '+t({sq:'personal',en:'personal'}),'@ml_marketing01 — ML Marketing','@ml_cinema01 — ML Cinema','@mes_rreshtave01 — Mes Rreshtave'],
+      btns:btn(L.igMe,'@l3gjionax')+btn(L.igMM,'ML Marketing')+btn(L.igMC,'ML Cinema')+btn(L.igMR,'Mes Rreshtave')})}
+    ${card({title:'YouTube',list:['Legjiona Gjergji','ml_cinema01','Mes Rreshtave Podcast'],
+      btns:btn(L.ytMe,'Legjiona')+btn(L.ytMC,'ML Cinema')+btn(L.ytMR,'Mes Rreshtave')})}
+  </div>
+  <p class="psub" style="margin-top:30px">${t({sq:'Durrës, Shqipëri',en:'Durrës, Albania'})}</p>`;
+ }
+};
+
+/* ============ render / panel ============ */
+let current = null;
+function openPanel(id){
+  const p = PLANETS.find(x=>x.id===id) || {};
+  current = id;
+  $('#pwrap').innerHTML = VIEWS[id](p);
+  $('#panel').classList.add('open'); $('#panel').scrollTop = 0;
+  document.body.style.overflow='hidden';
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+}
+function closePanel(){
+  $('#panel').classList.remove('open'); current=null; if(window.onPanelClose) window.onPanelClose();
+  document.body.style.overflow='';
+  try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+}
+$('#close').onclick = closePanel;
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if($('#lb').classList.contains('on')) $('#lb').classList.remove('on'); else if(current) closePanel(); }});
+
+
+document.addEventListener('click',e=>{
+  const em = e.target.closest('.embed');
+  if(em && !em.querySelector('iframe')){
+    em.innerHTML = `<iframe src="${em.dataset.src}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    return;
+  }
+  const im = e.target.closest('.slot img');
+  if(im){ $('#lb img').src = im.src; $('#lb').classList.add('on'); }
+});
+$('#lb').onclick = ()=>$('#lb').classList.remove('on');
+document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ') && e.target.classList?.contains('embed')){ e.preventDefault(); e.target.click(); }});
+
+
+
+/* ============ language / profile / fallback ============ */
+Object.assign(UI,{
+  hint2:{sq:'Tërhiq për të rrotulluar · rrota për zoom · kliko një planet',en:'Drag to rotate · scroll to zoom · click a planet'},
+  cta:{sq:'Kliko këtu',en:'Click here'},
+  more:{sq:'Shiko më shumë',en:'See more'},
+  years:{sq:'5 vite në botën digjitale dhe teknologjike',en:'5 years in the digital and tech world'},
+  profile:{sq:'Profili',en:'Profile'}
+});
+const TITLES=['Marketer','AI Content Creator','Business Consultant','Sales Specialist','Strategy Creator','Graphic Designer Entrepreneur'];
+function renderProfile(){
+  $('#pPhoto').innerHTML = slot(dir('01_profile/portrait'),{sq:'Foto portret',en:'Portrait'}[lang],{ar:'3/4'});
+  $('#pTitles').innerHTML = TITLES.map(x=>`<span>${x}</span>`).join('<i>·</i>');
+  $('#pYears').textContent = t(UI.years);
+  $('#pMore').textContent = t(UI.more)+'  ›';
+}
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
+  $('#hint').textContent = t(UI.hint2);
+  renderProfile();
+  if(window.refreshLabels) window.refreshLabels();
+  if(current) openPanel(current);
+}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{ lang=b.dataset.l; try{localStorage.setItem('lang',lang)}catch(e){} const sc=$('#panel').scrollTop; applyLang(); $('#panel').scrollTop=sc; });
+probe(dir('01_profile/portrait')).then(u=>{ window.__portrait=u; if(window.refreshLabels) window.refreshLabels(); });
+
+function showFallback(){
+  const f=$('#fallback'); if(f.classList.contains('on')) return;
+  f.innerHTML = [{id:'me',name:{sq:'Profili',en:'Profile'}},...PLANETS].map(p=>`<button class="btn pri" data-id="${p.id}">${p.ico||''} ${t(p.name)}</button>`).join('');
+  f.querySelectorAll('button').forEach(b=>b.onclick=()=>openPanel(b.dataset.id));
+  f.classList.add('on'); $('#profile').classList.remove('show');
+}
+setTimeout(()=>{ if(!window.__ready) showFallback(); },12000);
+applyLang();
+</script>
+
+<script type="module" onerror="showFallback()">
+import * as THREE from 'three';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+
+try{ boot(); }catch(err){ console.error(err); showFallback(); }
+
+function boot(){
+const $ = s => document.querySelector(s);
+const canvas = $('#gl');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, powerPreference:'high-performance'});
+const DPR = Math.min(devicePixelRatio||1, 1.75);
+renderer.setPixelRatio(DPR);
+renderer.setSize(innerWidth, innerHeight, false);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(48, innerWidth/innerHeight, .1, 4000);
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene,camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), .6, .6, .8);
+composer.addPass(bloom); composer.addPass(new OutputPass());
+
+const U = {uTime:{value:0}};
+const NOISE = `
+float hash(vec3 p){return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453);}
+float noise(vec3 x){vec3 i=floor(x),f=fract(x);f=f*f*(3.-2.*f);
+ return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
+            mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);}
+float fbm(vec3 p){float v=0.,a=.5;mat3 m=mat3(0.,.8,.6,-.8,.36,-.48,-.6,-.48,.64);for(int i=0;i<5;i++){v+=a*noise(p);p=m*p*2.02+vec3(1.7,9.2,3.1);a*=.5;}return v;}`;
+
+/* ---------- background nebula ---------- */
+const nebU = {value:.05};
+const bgTex=(()=>{
+  const W=2048,H=1024,cv=document.createElement("canvas");cv.width=W;cv.height=H;const g=cv.getContext("2d");
+  g.fillStyle="#02030a";g.fillRect(0,0,W,H);g.globalCompositeOperation="lighter";
+  const pal=[[120,35,185],[25,125,180],[200,45,120],[45,60,170],[90,40,150]];
+  const blob=(x,y,r,c,al,sx)=>{g.save();g.translate(x,y);g.scale(sx,1);const gr=g.createRadialGradient(0,0,0,0,0,r);gr.addColorStop(0,"rgba("+c+","+al+")");gr.addColorStop(.5,"rgba("+c+","+al*.4+")");gr.addColorStop(1,"rgba("+c+",0)");g.fillStyle=gr;g.fillRect(-r,-r,r*2,r*2);g.restore();};
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+  for(let k=0;k<140;k++){const x=rnd()*W,y=H*.15+rnd()*H*.7,r=90+rnd()*300,c=pal[(rnd()*pal.length)|0].join(","),al=.02+rnd()*.05,sx=1+rnd()*1.2;
+    for(const dx of [-W,0,W]) blob(x+dx,y,r,c,al,sx);}
+  const t=new THREE.CanvasTexture(cv);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=THREE.RepeatWrapping;return t;
+})();
+const bg = new THREE.Mesh(new THREE.SphereGeometry(1900,48,32), new THREE.MeshBasicMaterial({map:bgTex,side:THREE.BackSide,depthWrite:false,fog:false}));
+bg.frustumCulled=false; bg.renderOrder=-3; scene.add(bg);
+
+/* ---------- stars ---------- */
+const stars = (()=>{
+  const N=7000, pos=new Float32Array(N*3), col=new Float32Array(N*3), sz=new Float32Array(N), ph=new Float32Array(N);
+  const pal=[[1,1,1],[.7,.82,1],[1,.9,.7],[1,.75,.85]];
+  for(let i=0;i<N;i++){
+    const u=Math.random()*2-1, a=Math.random()*6.283, r=1000+Math.random()*500, s=Math.sqrt(1-u*u);
+    pos.set([r*s*Math.cos(a), r*u, r*s*Math.sin(a)], i*3);
+    col.set(pal[(Math.random()*4)|0], i*3);
+    sz[i]=1.4+Math.pow(Math.random(),6)*5; ph[i]=Math.random()*6.283;
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3)); g.setAttribute('aCol',new THREE.BufferAttribute(col,3));
+  g.setAttribute('aSize',new THREE.BufferAttribute(sz,1)); g.setAttribute('aPh',new THREE.BufferAttribute(ph,1));
+  const m=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uTime:U.uTime,uPx:{value:DPR}},
+    vertexShader:`attribute vec3 aCol;attribute float aSize,aPh;uniform float uPx;varying vec3 vC;varying float vP;void main(){vC=aCol;vP=aPh;gl_PointSize=aSize*uPx;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+    fragmentShader:`uniform float uTime;varying vec3 vC;varying float vP;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,0.,d);a*=a;float tw=.65+.35*sin(uTime*(1.+vP*.3)+vP*30.);gl_FragColor=vec4(vC*a*tw*1.6,a*tw);}`});
+  const p=new THREE.Points(g,m); p.frustumCulled=false; p.renderOrder=-2; scene.add(p); return p;
+})();
+
+/* ---------- glow texture ---------- */
+function glowTex(){
+  const c=document.createElement('canvas'); c.width=c.height=256; const g=c.getContext('2d');
+  const gr=g.createRadialGradient(128,128,0,128,128,128);
+  gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.25,'rgba(255,255,255,.45)'); gr.addColorStop(.6,'rgba(255,255,255,.08)'); gr.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle=gr; g.fillRect(0,0,256,256);
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t;
+}
+const GLOW = glowTex();
+
+/* ---------- SUN ---------- */
+const SUN_R = 7.5;
+const PV = `varying vec3 vObj;varying vec3 vN;varying vec3 vW;void main(){vObj=normalize(position);vN=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}`;
+const sun = new THREE.Mesh(new THREE.SphereGeometry(SUN_R,96,64), new THREE.ShaderMaterial({
+  uniforms:{uTime:U.uTime}, vertexShader:PV,
+  fragmentShader:NOISE+`varying vec3 vObj;varying vec3 vN;varying vec3 vW;uniform float uTime;
+  void main(){vec3 p=vObj;float n=fbm(p*3.+vec3(0.,uTime*.05,0.)),n2=fbm(p*8.-uTime*.08);float h=n*.7+n2*.3;
+   vec3 col=mix(vec3(.85,.2,.02),vec3(1.,.62,.12),h);col=mix(col,vec3(1.,.95,.7),smoothstep(.55,.88,h));
+   col*=1.-smoothstep(.66,.74,fbm(p*5.+3.))*.55;
+   vec3 V=normalize(cameraPosition-vW);float fr=pow(1.-max(dot(normalize(vN),V),0.),2.5);
+   col=col*1.15+vec3(1.,.45,.08)*fr*.9;gl_FragColor=vec4(col,1.);}`}));
+sun.userData.id='me'; scene.add(sun);
+const corona = [[36,0xff8a20,.5],[72,0xff6a10,.18],[150,0xff5a20,.05]].map(([s,c,o])=>{
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color:c,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:o}));
+  sp.scale.set(s,s,1); sp.userData.o=o; sp.userData.s=s; scene.add(sp); return sp;
+});
+scene.add(new THREE.PointLight(0xfff0d0, 3.2, 0, 0));
+scene.add(new THREE.AmbientLight(0x6070a0, .35));
+
+/* ---------- PLANETS ---------- */
+const PF = NOISE+`varying vec3 vObj;varying vec3 vN;varying vec3 vW;
+uniform vec3 uA,uB,uC,uGlow;uniform float uType,uTime,uSeed;
+void main(){
+ vec3 p=vObj+vec3(uSeed);vec3 col;vec3 emis=vec3(0.);
+ if(uType<.5){float w=fbm(p*3.+uTime*.02)*.5;float b=sin((p.y+w)*16.)*.5+.5;col=mix(uA,uB,b);col=mix(col,uC,fbm(p*5.+w*3.)*.7);}
+ else if(uType<1.5){float h=fbm(p*2.6);float land=smoothstep(.5,.54,h);vec3 ocean=mix(uA*.5,uA,smoothstep(.2,.5,h));vec3 g=mix(uB,uC,fbm(p*7.));col=mix(ocean,g,land);
+  float ice=smoothstep(.78,.92,abs(p.y)+fbm(p*6.)*.15);col=mix(col,vec3(.95),ice);
+  float cl=smoothstep(.55,.75,fbm(p*4.+vec3(uTime*.03,0.,0.)));col=mix(col,vec3(1.),cl*.85);}
+ else if(uType<2.5){float h=fbm(p*3.);col=mix(uA*.4,uA,h);float l=abs(fbm(p*5.2)-.5);float line=1.-smoothstep(0.,.025,l);
+  float l2=abs(fbm(p*11.+3.)-.5);line+=(1.-smoothstep(0.,.018,l2))*.6;float pu=.6+.4*sin(uTime*2.+fbm(p*4.)*12.);emis=uC*line*pu*1.8;col+=uB*h*.15;}
+ else if(uType<3.5){float h=fbm(p*3.5);col=mix(uA*.5,uA,h);float l=abs(fbm(p*4.+uTime*.01)-.5);float cr=1.-smoothstep(0.,.05,l);emis=mix(uB,uC,fbm(p*9.))*cr*2.2;}
+ else{vec3 q=vec3(fbm(p*2.),fbm(p*2.+5.2),fbm(p*2.+9.1));float m=fbm(p*2.5+q*2.5+uTime*.015);col=mix(uA,uB,smoothstep(.25,.65,m));col=mix(col,uC,smoothstep(.55,.85,fbm(p*3.+q*3.)));}
+ vec3 n=normalize(vN);vec3 L=normalize(-vW);vec3 V=normalize(cameraPosition-vW);
+ float d=max(dot(n,L),0.);float fr=pow(1.-max(dot(n,V),0.),3.);
+ vec3 c=col*(.05+d*1.35)+emis+uGlow*fr*(.15+d)*.8;gl_FragColor=vec4(c,1.);}`;
+const AF = `varying vec3 vObj;varying vec3 vN;varying vec3 vW;uniform vec3 uGlow;
+void main(){vec3 n=normalize(vN);vec3 V=normalize(cameraPosition-vW);vec3 L=normalize(-vW);
+ float f=pow(1.-abs(dot(n,V)),2.6);float lit=smoothstep(-.35,.5,dot(n,L));gl_FragColor=vec4(uGlow*f*lit*1.6,f*lit);}`;
+function ringTex(c1,c2){
+  const cv=document.createElement('canvas'); cv.width=512; cv.height=4; const g=cv.getContext('2d');
+  for(let x=0;x<512;x++){const u=x/512;const a=(.12+.75*Math.abs(Math.sin(u*55)*Math.sin(u*17+1)))*Math.min(1,u*8)*Math.min(1,(1-u)*8);
+    const r=c1[0]+(c2[0]-c1[0])*u,gg=c1[1]+(c2[1]-c1[1])*u,b=c1[2]+(c2[2]-c1[2])*u;
+    g.fillStyle=`rgba(${r|0},${gg|0},${b|0},${a})`; g.fillRect(x,0,1,4);}
+  const t=new THREE.CanvasTexture(cv); t.colorSpace=THREE.SRGBColorSpace; return t;
+}
+const DEFS = {
+  marketing:{R:1.9,D:17,sp:.18,type:4,A:[.55,.05,.35],B:[1,.35,.5],C:[1,.75,.45],glow:[1,.4,.65]},
+  ai:{R:2.4,D:24,sp:.15,type:2,A:[.02,.12,.35],B:[.1,.4,.9],C:[.2,.9,1],glow:[.3,.7,1],moons:[[.5,4.2,1.6,0x66ccff],[.35,5.4,-1.1,0xaa88ff],[.3,6.5,.8,0x88ffee]]},
+  business:{R:3.4,D:32,sp:.11,type:0,A:[.55,.35,.08],B:[.95,.75,.35],C:[.75,.5,.15],glow:[1,.75,.3],ring:[[255,225,160],[190,130,60]],moons:[[.45,6.8,.9,0xffd27a]]},
+  startups:{R:2,D:40,sp:.1,type:1,A:[.25,.1,.5],B:[.5,.2,.8],C:[.9,.5,.9],glow:[.7,.5,1]},
+  design:{R:2.7,D:48,sp:.085,type:4,A:[0,.45,.4],B:[.3,.95,.6],C:[1,.9,.4],glow:[.3,1,.8]},
+  skills:{R:3,D:56,sp:.07,type:3,A:[.25,.08,.04],B:[1,.3,.05],C:[1,.8,.2],glow:[1,.5,.2],ring:[[255,170,100],[120,60,40]]},
+  certs:{R:2.6,D:64,sp:.06,type:1,A:[.05,.25,.7],B:[.15,.5,.15],C:[.6,.5,.25],glow:[.4,.7,1],moons:[[.5,4.6,1.3,0xdddddd]]},
+  contact:{R:2.2,D:72,sp:.05,type:0,A:[.15,.2,.6],B:[.55,.6,1],C:[.4,.3,.8],glow:[.5,.6,1],moons:[[.28,3.9,2,0xffffff]]}
+};
+const orbitsGroup = new THREE.Group(); scene.add(orbitsGroup);
+const orbitMats=[];
+const P = PLANETS.map((pl,i)=>{
+  const d=DEFS[pl.id]; const grp=new THREE.Group(); grp.userData.id=pl.id;
+  const vec=a=>new THREE.Vector3(...a);
+  const mat=new THREE.ShaderMaterial({uniforms:{uTime:U.uTime,uType:{value:d.type},uSeed:{value:i*7.3},uA:{value:vec(d.A)},uB:{value:vec(d.B)},uC:{value:vec(d.C)},uGlow:{value:vec(d.glow)}},vertexShader:PV,fragmentShader:PF});
+  const mesh=new THREE.Mesh(new THREE.SphereGeometry(d.R,64,48),mat); mesh.userData.id=pl.id; grp.add(mesh);
+  const atm=new THREE.Mesh(new THREE.SphereGeometry(d.R*1.13,48,32),new THREE.ShaderMaterial({uniforms:{uGlow:{value:vec(d.glow)}},vertexShader:PV,fragmentShader:AF,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
+  grp.add(atm);
+  if(d.ring){
+    const gi=d.R*1.45, go=d.R*2.5, g=new THREE.RingGeometry(gi,go,128,1), pos=g.attributes.position, uv=g.attributes.uv, v=new THREE.Vector3();
+    for(let k=0;k<pos.count;k++){v.fromBufferAttribute(pos,k);uv.setXY(k,(v.length()-gi)/(go-gi),.5);}
+    const ring=new THREE.Mesh(g,new THREE.MeshStandardMaterial({map:ringTex(...d.ring),transparent:true,side:THREE.DoubleSide,depthWrite:false,roughness:1,metalness:0}));
+    ring.rotation.x=Math.PI/2; grp.add(ring);
+  }
+  const moons=(d.moons||[]).map(([r,dist,sp,color])=>{
+    const piv=new THREE.Group(); const m=new THREE.Mesh(new THREE.SphereGeometry(r,24,16),new THREE.MeshStandardMaterial({color,roughness:.8,emissive:color,emissiveIntensity:.12}));
+    m.position.x=dist; piv.add(m); piv.rotation.y=Math.random()*6; piv.userData.sp=sp; grp.add(piv); return piv;
+  });
+  grp.rotation.z=(Math.random()-.5)*.5; scene.add(grp);
+  // orbit line
+  const pts=[]; for(let k=0;k<=256;k++){const a=k/256*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*d.D,0,Math.sin(a)*d.D));}
+  const lm=new THREE.LineBasicMaterial({color:0x9fb0ff,transparent:true,opacity:0}); orbitMats.push(lm);
+  {const ll=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),lm); ll.userData.D=d.D; orbitsGroup.add(ll);}
+  return {id:pl.id,d,grp,mesh,moons,a:i*2.4+.5,app:0,hv:0,i};
+});
+const hitMeshes=[sun,...P.map(p=>p.mesh)];
+
+/* ---------- GALAXY (Milky Way) ---------- */
+const galaxyU={uFade:{value:0},uPx:{value:DPR}};
+const galaxy=new THREE.Group(); galaxy.position.set(-430,-50,-300); galaxy.rotation.set(.14,0,-.06); scene.add(galaxy);
+(()=>{
+  const N=120000, GR=950, pos=new Float32Array(N*3), col=new Float32Array(N*3), sz=new Float32Array(N);
+  const gs=()=>(Math.random()+Math.random()+Math.random()-1.5)*1.3;
+  for(let i=0;i<N;i++){
+    let x,y,z,r; let c;
+    if(i<N*.14){ r=Math.pow(Math.random(),2.2)*120; const u=Math.random()*2-1,a=Math.random()*6.283,s=Math.sqrt(1-u*u); x=r*s*Math.cos(a); y=r*u*.55; z=r*s*Math.sin(a); const b=.55+Math.random()*.45; c=[1*b,.82*b,.55*b]; }
+    else{
+      r=Math.pow(Math.random(),.62)*GR+40; const arm=(Math.random()*4)|0; const ang=arm*Math.PI/2+r*.0105+gs()*.28*(1-r/GR*.45);
+      x=Math.cos(ang)*r; z=Math.sin(ang)*r; y=gs()*18*(1-r/GR*.5);
+      const t=Math.pow(r/GR,.7); const b=.35+Math.random()*.65;
+      c=[(1-.55*t)*b,(.78-.18*t)*b,(.55+.45*t)*b];
+      if(Math.random()<.07) c=[1*b,.35*b,.6*b];
+    }
+    pos.set([x,y,z],i*3); col.set(c,i*3); sz[i]=1+Math.pow(Math.random(),4)*3.2;
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3)); g.setAttribute('aCol',new THREE.BufferAttribute(col,3)); g.setAttribute('aSize',new THREE.BufferAttribute(sz,1));
+  const m=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:galaxyU,
+    vertexShader:`attribute vec3 aCol;attribute float aSize;uniform float uPx;varying vec3 vC;void main(){vC=aCol;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=clamp(aSize*uPx*(520./-mv.z),1.5*uPx,16.*uPx);gl_Position=projectionMatrix*mv;}`,
+    fragmentShader:`uniform float uFade;varying vec3 vC;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,0.,d);gl_FragColor=vec4(vC*uFade*1.3,a*.5);}`});
+  const pts=new THREE.Points(g,m); pts.frustumCulled=false; galaxy.add(pts);
+  const core=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color:0xffd9a0,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:0}));
+  core.scale.set(420,420,1); galaxy.add(core); galaxy.userData.core=core;
+})();
+
+/* ---------- shooting stars ---------- */
+const shoot=new THREE.Group(); scene.add(shoot);
+const SS=[0,1,2].map(()=>{
+  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(6),3)); g.setAttribute('color',new THREE.BufferAttribute(new Float32Array(6),3));
+  const l=new THREE.Line(g,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false})); l.frustumCulled=false; l.visible=false; shoot.add(l);
+  return {l,life:0,p:new THREE.Vector3(),v:new THREE.Vector3()};
+});
+function spawnShoot(){
+  const s=SS.find(x=>x.life<=0); if(!s) return;
+  const u=Math.random()*.9+.1, a=Math.random()*6.283, r=650, sn=Math.sqrt(1-u*u);
+  s.p.set(r*sn*Math.cos(a),r*u,r*sn*Math.sin(a));
+  s.v.set(Math.random()-.5,-(Math.random()*.4+.1),Math.random()-.5).normalize().multiplyScalar(520); s.life=1; s.l.visible=true;
+}
+function updShoot(dt){
+  shoot.position.copy(camera.position);
+  if(Math.random()<dt*.35) spawnShoot();
+  for(const s of SS){ if(s.life<=0) continue; s.life-=dt*1.1; if(s.life<=0){s.l.visible=false;continue;}
+    s.p.addScaledVector(s.v,dt); const tail=s.p.clone().addScaledVector(s.v.clone().normalize(),-70);
+    const pa=s.l.geometry.attributes.position, ca=s.l.geometry.attributes.color, f=Math.min(1,s.life*2);
+    pa.setXYZ(0,s.p.x,s.p.y,s.p.z); pa.setXYZ(1,tail.x,tail.y,tail.z); ca.setXYZ(0,f,f,f); ca.setXYZ(1,0,0,0); pa.needsUpdate=ca.needsUpdate=true; }
+}
+
+/* ---------- labels ---------- */
+const labelsEl=$('#labels'); const LB={};
+const mkLbl=(id,cls)=>{const d=document.createElement('div');d.className='lbl '+(cls||'');d.onclick=()=>pick(id);labelsEl.appendChild(d);return d;};
+PLANETS.forEach(p=>{LB[p.id]=mkLbl(p.id);LB[p.id].style.display="none";});
+const sunLbl=mkLbl('me','sunl'); sunLbl.style.display='none';
+let LV=true;
+window.refreshLabels=()=>{
+  PLANETS.forEach(p=>{LB[p.id].innerHTML=`<span class="i">${p.ico}</span>${t(p.name)}`;});
+  sunLbl.dataset.v='';  // force re-render
+};
+function renderSunLbl(){
+  const key=mode+'|'+lang+'|'+(window.__portrait||'');
+  if(sunLbl.dataset.v===key) return; sunLbl.dataset.v=key;
+  if(mode==='sun'){ sunLbl.className='lbl cta'; sunLbl.innerHTML='✦ '+t(UI.cta)+' ✦'; }
+  else { sunLbl.className='lbl sunl'; sunLbl.innerHTML=`<div class="av">${window.__portrait?`<img src="${window.__portrait}" alt="">`:'LG'}</div>LEGJIONA GJERGJI<small>${t(UI.profile)}</small>`; }
+}
+window.refreshLabels();
+
+/* ---------- state ---------- */
+let mode='sun';          // sun | profile | home | focus
+let focusId=null, galStart=0, T=0, tScale=1, userZ=1;
+const sph={az:.35,el:.12,rad:44,azT:.35,elT:.12};
+const look=new THREE.Vector3(), camTmp=new THREE.Vector3(), lookT=new THREE.Vector3();
+const mouse=new THREE.Vector2(0,0), ndc=new THREE.Vector2(9,9);
+const ray=new THREE.Raycaster(); let hovered=null, dragging=false, moved=0, downX=0,downY=0;
+let dk=1,dkT=1,sk=1,skT=1,radHome=118,elHome=.42;
+const mapD=D=>D*(1-dk)+(13+(D-17)*.42)*dk;
+const isNarrow=()=>innerWidth<820;
+
+function layout(){
+  const asp=innerWidth/innerHeight;
+  if(asp<1){ dkT=1; skT=1.75; elHome=1.0; radHome=Math.min(300,(40)/(.445*asp)*.9); }
+  else { dkT=0; skT=1; elHome=.42; radHome=asp<1.3?150:118; }
+  labelsEl.classList.toggle("icons",innerWidth<820);
+}
+function resize(){
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight,false); composer.setSize(innerWidth,innerHeight); layout();
+}
+addEventListener('resize',resize); layout(); dk=dkT; sk=skT;
+camera.position.set(0,5,55); look.set(0,0,0);
+
+/* ---------- transitions ---------- */
+function toProfile(){
+  mode='profile'; focusId=null; $('#profile').classList.add('show');
+  $('#hint').classList.add('hide'); labelsEl.classList.add('hide'); document.body.classList.remove('st-galaxy');
+}
+function toGalaxy(){
+  mode='home'; galStart=T; $('#profile').classList.remove('show');
+  sph.az=Math.atan2(camera.position.x,camera.position.z); sph.azT=sph.az; sph.elT=elHome; sph.el=Math.asin(camera.position.y/Math.max(1,camera.position.length())); userZ=1;
+  sph.rad=camera.position.length();
+  labelsEl.classList.remove('hide'); $('#hint').classList.remove('hide'); document.body.classList.add('st-galaxy');
+}
+function pick(id){
+  if(mode==='sun'){ toProfile(); return; }
+  if(mode!=='home') return;
+  mode='focus'; focusId=id; labelsEl.classList.add('hide'); $('#hint').classList.add('hide');
+  const my=id; setTimeout(()=>{ if(mode==='focus'&&focusId===my) openPanel(my); },1250);
+}
+window.onPanelClose=()=>{ if(mode==='focus'){ mode='home'; focusId=null; labelsEl.classList.remove('hide'); $('#hint').classList.remove('hide'); } };
+$('#pMore').onclick=toGalaxy;
+document.querySelector('.brand').onclick=()=>{ if(mode==='home') toProfile(); };
+
+/* ---------- input ---------- */
+function setNdc(e){ndc.x=e.clientX/innerWidth*2-1;ndc.y=-(e.clientY/innerHeight)*2+1;mouse.set(ndc.x,ndc.y);}
+function hit(){
+  if(mode==='profile'||mode==='focus') return null;
+  ray.setFromCamera(ndc,camera);
+  const list=hitMeshes.filter(m=>m===sun||P.find(p=>p.mesh===m).app>.6);
+  const h=ray.intersectObjects(list,false)[0]; return h?h.object.userData.id:null;
+}
+canvas.addEventListener('pointerdown',e=>{dragging=true;moved=0;downX=e.clientX;downY=e.clientY;setNdc(e);canvas.setPointerCapture(e.pointerId);canvas.classList.add('drag');});
+canvas.addEventListener('pointermove',e=>{
+  setNdc(e);
+  if(dragging){ const dx=e.clientX-downX, dy=e.clientY-downY; moved+=Math.abs(dx)+Math.abs(dy); downX=e.clientX;downY=e.clientY;
+    if(mode==='home'){ sph.azT-=dx*.005; sph.elT=Math.max(.08,Math.min(1.35,sph.elT+dy*.004)); } }
+});
+canvas.addEventListener('pointerup',e=>{
+  dragging=false; canvas.classList.remove('drag'); setNdc(e);
+  if(moved<7){ const id=hit(); if(id) pick(id); }
+});
+canvas.addEventListener('wheel',e=>{ if(mode!=='home') return; e.preventDefault(); userZ=Math.max(.55,Math.min(3.4,userZ*(1+e.deltaY*.0012))); },{passive:false});
+let pinch=0;
+canvas.addEventListener('touchmove',e=>{ if(e.touches.length===2&&mode==='home'){ const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); if(pinch) userZ=Math.max(.55,Math.min(3.4,userZ*pinch/d)); pinch=d; } },{passive:true});
+canvas.addEventListener('touchend',()=>pinch=0);
+
+/* ---------- loop ---------- */
+const V=new THREE.Vector3(), up=new THREE.Vector3(0,1,0), camRight=new THREE.Vector3();
+const ease=x=>1-Math.pow(1-x,3);
+const clock=new THREE.Clock();
+let galFade=0;
+function frame(){
+  const dt=Math.min(clock.getDelta(),.05); T+=dt; U.uTime.value=T;
+  const galOn=(mode==='home'||mode==='focus');
+  galFade+=((galOn?1:0)-galFade)*(1-Math.exp(-dt*(galOn?.9:2.5)));
+  galaxyU.uFade.value=galFade; nebU.value=.05+.95*galFade; bg.material.color.setScalar(nebU.value);
+  galaxy.userData.core.material.opacity=galFade*.55;
+  galaxy.scale.setScalar(.55+.45*ease(Math.min(1,galFade)));
+  galaxy.rotation.y+=dt*.004;
+  dk+=(dkT-dk)*(1-Math.exp(-dt*4)); sk+=(skT-sk)*(1-Math.exp(-dt*4));
+  tScale+=(((mode==='focus')?.04:1)-tScale)*(1-Math.exp(-dt*3));
+
+  // sun pulse
+  const pulse=1+Math.sin(T*1.6)*.03; corona.forEach((c,i)=>{c.scale.set(c.userData.s*pulse*(i?1+Math.sin(T*.7+i)*.04:1),c.userData.s*pulse,1);});
+  sun.rotation.y+=dt*.02;
+
+  // planets
+  orbitsGroup.children.forEach(l=>{const k=mapD(l.userData.D)/l.userData.D;l.scale.set(k,1,k);});
+  const tg=T-galStart;
+  P.forEach(p=>{
+    p.a+=p.d.sp*dt*tScale*.6;
+    const tgt=(galOn&&tg>p.i*.16)?1:0; p.app+=(tgt-p.app)*(1-Math.exp(-dt*(tgt?2.4:5)));
+    const D=mapD(p.d.D);
+    p.grp.position.set(Math.cos(p.a)*D,Math.sin(p.a*2+p.i)*1.2,Math.sin(p.a)*D);
+    p.mesh.rotation.y+=dt*(.25+p.i*.03);
+    const hv=(hovered===p.id)?1.12:1; p.hv+=(hv-p.hv)*(1-Math.exp(-dt*8));
+    const s=Math.max(.0001,ease(Math.min(1,p.app))*sk*p.hv); p.grp.scale.setScalar(s); p.grp.visible=p.app>.01;
+    p.moons.forEach(m=>m.rotation.y+=dt*m.userData.sp);
+  });
+  orbitMats.forEach(m=>m.opacity=.1*Math.min(1,galFade*1.2));
+
+  // camera
+  let rate=3;
+  if(mode==='sun'){ sph.azT+=dt*.03; sph.az+=(sph.azT-sph.az)*(1-Math.exp(-dt*3)); camTmp.set((isNarrow()?64:50)*Math.sin(sph.az),5,(isNarrow()?64:50)*Math.cos(sph.az)); lookT.set(0,0,0); rate=3; }
+  else if(mode==='profile'){ const narrow=isNarrow(); const off=narrow?0:-9; camTmp.set(off,2.5,narrow?36:27); lookT.set(off,narrow?-3:0,0); rate=1.6; }
+  else if(mode==='home'){
+    if(!dragging) sph.azT+=dt*.012;
+    const k=1-Math.exp(-dt*4); sph.az+=(sph.azT-sph.az)*k; sph.el+=(sph.elT-sph.el)*k;
+    const rT=radHome*userZ; sph.rad+=(rT-sph.rad)*(1-Math.exp(-dt*(tg<4?1.1:4)));
+    camTmp.set(sph.rad*Math.cos(sph.el)*Math.sin(sph.az),sph.rad*Math.sin(sph.el),sph.rad*Math.cos(sph.el)*Math.cos(sph.az));
+    lookT.set(mouse.x*3,mouse.y*1.6,0); rate=tg<4?1.3:4;
+  }
+  else if(mode==='focus'){
+    if(focusId==="me"){ camTmp.set(isNarrow()?0:-7,4,26); lookT.set(isNarrow()?0:-7,0,0); rate=2.2; }
+    else{
+    const p=P.find(x=>x.id===focusId), pw=p.grp.position, R=p.d.R*sk, out=V.copy(pw).setY(0).normalize();
+    const dist=R*5.4; camRight.crossVectors(out,up).normalize();
+    camTmp.copy(pw).addScaledVector(out,-dist).addScaledVector(camRight,dist*.35); camTmp.y+=R*1.1;
+    lookT.copy(pw); if(!isNarrow()) lookT.addScaledVector(camRight,R*2.1); rate=2.2;
+    }
+  }
+  const kc=1-Math.exp(-dt*rate);
+  camera.position.lerp(camTmp,kc); look.lerp(lookT,kc); camera.lookAt(look);
+  bg.position.copy(camera.position); stars.position.copy(camera.position);
+
+  // hover
+  const h=dragging?null:hit(); if(h!==hovered){ hovered=h; canvas.classList.toggle('hov',!!h); Object.entries(LB).forEach(([id,el])=>el.classList.toggle('hv',id===h)); sunLbl.classList.toggle('hv',h==='me'); }
+  updShoot(dt); updLabels();
+  composer.render();
+  requestAnimationFrame(frame);
+}
+function proj(v,out){ V.copy(v).project(camera); out.x=(V.x*.5+.5)*innerWidth; out.y=(-V.y*.5+.5)*innerHeight; out.z=V.z; }
+const o={x:0,y:0,z:0};
+function updLabels(){
+  renderSunLbl();
+  if(mode==='sun'||mode==='home'){
+    sunLbl.style.display='flex';
+    const v=mode==='sun'?new THREE.Vector3(0,0,0):new THREE.Vector3(0,-SUN_R*1.25,0);
+    proj(v,o); sunLbl.style.transform=`translate(${o.x}px,${o.y}px) translate(-50%,${mode==='sun'?'-50%':'0'})`;
+    sunLbl.style.opacity=(mode==='home'&&galFade<.4)?0:1;
+  } else sunLbl.style.display='none';
+  if(mode!=='home') return;
+  P.forEach(p=>{
+    const el=LB[p.id]; if(p.app<.5){el.style.display='none';return;} el.style.display='flex';
+    const v=p.grp.position.clone(); v.y+=p.d.R*sk*1.55+.6; proj(v,o);
+    el.style.transform=`translate(${o.x}px,${o.y}px) translate(-50%,-100%)`; el.style.opacity=o.z>1?0:Math.min(1,(p.app-.5)*2);
+  });
+}
+
+window.__ready=true; canvas.classList.add("ready");
+frame();
+const h0=location.hash.slice(1);
+if(h0==='me'||PLANETS.some(p=>p.id===h0)){ toProfile(); toGalaxy(); galStart=-10; pick(h0); }
+}
+</script>
+</body>
+</html>
