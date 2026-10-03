@@ -336,7 +336,7 @@ const card = ({title,meta,body,list,media,btns}) => `<article class="card">
   ${media||''}<h3>${t(title)}</h3>${meta?`<div class="meta">${t(meta)}</div>`:''}
   ${body?`<p>${t(body)}</p>`:''}${list?`<ul>${list.map(x=>`<li>${t(x)}</li>`).join('')}</ul>`:''}
   ${btns?`<div class="btns">${btns}</div>`:''}</article>`;
-const head = (p, title, sub) => `<div class="ptitle" style="--c1:${p.c1};--c2:${p.c2};--glow:${p.glow}"><div class="pi">${p.ico}</div><h1>${t(title)}</h1></div><p class="psub">${t(sub)}</p>`;
+const head = (p, title, sub) => `<div class="ptitle" style="--c1:${p.c1};--c2:${p.c2};--glow:${p.glow}"><div class="pi">${p.ico}</div><h1>${t(title)}</h1></div>${sub?`<p class="psub">${t(sub)}</p>`:'<div style="height:20px"></div>'}`;
 const h2 = s => `<h2>${t(s)}</h2>`;
 const PRESENT = () => t(UI.present);
 
@@ -490,7 +490,7 @@ const VIEWS = {
  },
 
  skills(p){
-  return head(p,{sq:'Planeti i Aftësive',en:'Skills Planet'},{sq:'Aftësitë e listuara në CV.',en:'Skills listed in my CV.'})+
+  return head(p,{sq:'Planeti i Aftësive',en:'Skills Planet'},null)+
   SKILLS.map(g=>`${h2(g.t)}<div class="chips">${g.i.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`).join('');
  },
 
